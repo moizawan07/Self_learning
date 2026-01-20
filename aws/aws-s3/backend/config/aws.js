@@ -5,7 +5,7 @@ dotenv.config();
 
 AWS.config.update({
   region: process.env.AWS_REGION,
-  // region:"ap-south-1",
+  cre
 });
 
 // AWS S3 ka client / instance create karta hai
