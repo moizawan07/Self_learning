@@ -1,44 +1,54 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-function App() {
+export default function App() {
   const [file, setFile] = useState(null);
+  const [isPublic, setIsPublic] = useState(true);
   const [files, setFiles] = useState([]);
 
   const fetchFiles = async () => {
     const res = await axios.get("http://localhost:5000/api/files");
     setFiles(res.data);
+    localStorage.setItem("files", JSON.stringify(res.data));
   };
 
   useEffect(() => {
+    const saved = localStorage.getItem("files");
+    if (saved) setFiles(JSON.parse(saved));
     fetchFiles();
   }, []);
 
-  const handleUpload = async () => {
-    if (!file) return;
+  const upload = async () => {
     const formData = new FormData();
     formData.append("file", file);
-    await axios.post("http://localhost:5000/api/files", formData);
-    setFile(null);
+    formData.append("isPublic", isPublic);
+
+    await axios.post("http://localhost:5000/api/upload", formData);
     fetchFiles();
   };
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>File Upload App</h1>
-      <input type="file" onChange={e => setFile(e.target.files[0])} />
-      <button onClick={handleUpload}>Upload</button>
+      <h2>Upload Image</h2>
 
-      <h2>Uploaded Files</h2>
-      <ul>
-        {files.map(f => (
-          <li key={f.id}>
-            {f.name} - <a href={f.url} target="_blank">View</a>
-          </li>
-        ))}
-      </ul>
+      <input type="file" onChange={e => setFile(e.target.files[0])} />
+
+      <select onChange={e => setIsPublic(e.target.value === "true")}>
+        <option value="true">Public</option>
+        <option value="false">Private</option>
+      </select>
+
+      <button onClick={upload}>Upload</button>
+
+      <hr />
+
+      <h2>Images</h2>
+      {files.map(f => (
+        <div key={f.id}>
+          <p>{f.name} ({f.isPublic ? "Public" : "Private"})</p>
+          <img src={f.url} width="200" />
+        </div>
+      ))}
     </div>
   );
 }
-
-export default App;

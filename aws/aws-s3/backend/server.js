@@ -1,67 +1,53 @@
 import express from "express";
+import multer from "multer";
 import cors from "cors";
 import dotenv from "dotenv";
-import multer from "multer"; // file upload ke liye
-import { uploadToS3 } from "./service/s3.js";
+import { uploadToS3, getSignedUrl } from "./service/s3.js";
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+const upload = multer({ storage: multer.memoryStorage() });
 
+let filesDB = [];
 
+// Upload
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  const { isPublic } = req.body;
 
-// multer setup
-const storage = multer.memoryStorage(); // files memory me store hongi
-const upload = multer({ storage });
+  const key = await uploadToS3(req.file, isPublic === "true");
 
-let filesDB = []; // simple in-memory DB (for example)
+  filesDB.push({
+    id: Date.now(),
+    name: req.file.originalname,
+    key,
+    isPublic: isPublic === "true",
+  });
 
-// ---------- CREATE (Upload File) ----------
-app.post("/api/files", upload.single("file"), async (req, res) => {
-  try {
-    const file = req.file;
-    const url = await uploadToS3(file);
-    const newFile = { id: filesDB.length + 1, name: file.originalname, url };
-    filesDB.push(newFile);
-    res.status(201).json(newFile);
-  } catch (error) {
-    console.log("errror ==>", error.message);
-    
-    res.status(500).json({ message: error.message });
-  }
+  res.json({ message: "Uploaded" });
 });
 
-// ---------- READ (Get all files) ----------
-app.get("/api/files", (req, res) => {
-  res.json(filesDB);
+// Get files
+app.get("/api/files", async (req, res) => {
+  const data = await Promise.all(
+    filesDB.map(async (file) => {
+      if (file.isPublic) {
+        return {
+          ...file,
+          url: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${file.key}`,
+        };
+      } else {
+        return {
+          ...file,
+          url: await getSignedUrl(file.key),
+        };
+      }
+    }),
+  );
+
+  res.json(data);
 });
 
-// ---------- UPDATE (Replace file) ----------
-app.put("/api/files/:id", upload.single("file"), async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const index = filesDB.findIndex(f => f.id === id);
-    if (index === -1) return res.status(404).json({ message: "File not found" });
-
-    const file = req.file;
-    const url = await uploadToS3(file);
-    filesDB[index].name = file.originalname;
-    filesDB[index].url = url;
-
-    res.json(filesDB[index]);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// ---------- DELETE ----------
-app.delete("/api/files/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  filesDB = filesDB.filter(f => f.id !== id);
-  res.json({ message: "File deleted successfully" });
-});
-
-// ---------- Server ----------
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5000, () => console.log("Server running"));

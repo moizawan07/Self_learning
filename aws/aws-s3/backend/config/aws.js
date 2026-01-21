@@ -2,14 +2,14 @@ import AWS from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
-
 AWS.config.update({
   region: process.env.AWS_REGION,
-  cre
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
-// AWS S3 ka client / instance create karta hai
 export const s3 = new AWS.S3();
 // DynamoDB ka client / instance create ho raha hai
 // export const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
