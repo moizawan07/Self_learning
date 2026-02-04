@@ -1,0 +1,79 @@
+import { View, Text, TextInput, Pressable } from "react-native";
+import { useState } from "react";
+
+export default function Signup() {
+  // 1️⃣ Single form state
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // 2️⃣ Handle input change
+  const handleChange = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value,
+    });
+  };
+
+  // 3️⃣ Handle submit
+  const handleSubmit = () => {
+    console.log("Signup Data:", form);
+
+    // Example validation
+    if (!form.name || !form.email || !form.password) {
+      alert("All fields are required");
+      return;
+    }
+
+    // Yahan API call hogi (future)
+    // fetch / axios
+  };
+
+  return (
+    <View className="flex-1 justify-center px-6 bg-white">
+      {/* Title */}
+      <Text className="text-2xl font-bold text-center mb-6">
+        Create Account
+      </Text>
+
+      {/* Name */}
+      <TextInput
+        placeholder="Enter your name"
+        value={form.name}
+        onChangeText={(text) => handleChange("name", text)}
+        className="border border-gray-300 rounded-lg px-4 py-3 mb-4"
+      />
+
+      {/* Email */}
+      <TextInput
+        placeholder="Enter your email"
+        value={form.email}
+        onChangeText={(text) => handleChange("email", text)}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        className="border border-gray-300 rounded-lg px-4 py-3 mb-4"
+      />
+
+      {/* Password */}
+      <TextInput
+        placeholder="Enter your password"
+        value={form.password}
+        onChangeText={(text) => handleChange("password", text)}
+        secureTextEntry
+        className="border border-gray-300 rounded-lg px-4 py-3 mb-6"
+      />
+
+      {/* Button */}
+      <Pressable
+        onPress={handleSubmit}
+        className="bg-blue-600 py-4 rounded-lg"
+      >
+        <Text className="text-white text-center font-semibold text-lg">
+          Sign Up
+        </Text>
+      </Pressable>
+    </View>
+  );
+}

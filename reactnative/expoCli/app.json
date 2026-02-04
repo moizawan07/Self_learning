@@ -3,6 +3,7 @@
     "name": "expoCli",
     "slug": "expoCli",
     "version": "1.0.0",
+    "scheme": "expoCli",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -24,6 +25,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
