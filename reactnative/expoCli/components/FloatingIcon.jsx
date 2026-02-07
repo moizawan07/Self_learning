@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
-export default function FloatingIcon() {
+export default function FloatingIcon({setOpenAddModal}) {
   return (
-    <View style={styles.icon}>
-      <Text style={{ color: "white" }}>+</Text>
-    </View>
+    <Pressable className="bg-black w-10 h-10 rounded-lg flex items-center justify-center"
+    onPress={() => setOpenAddModal(true)}
+    >
+      <Text className="text-xl text-white">+</Text>
+    </Pressable>
   );
 }
 

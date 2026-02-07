@@ -1,15 +1,19 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, Alert } from "react-native";
 import { useState } from "react";
+import "../global.css";
+import { useRouter } from "expo-router";
+
 
 export default function Signup() {
-  // 1️⃣ Single form state
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  // 2️⃣ Handle input change
+  const router = useRouter();
+
+  
   const handleChange = (field, value) => {
     setForm({
       ...form,
@@ -23,19 +27,23 @@ export default function Signup() {
 
     // Example validation
     if (!form.name || !form.email || !form.password) {
-      alert("All fields are required");
+     Alert.alert('All fileds are rquired')
       return;
     }
 
-    // Yahan API call hogi (future)
+    router.push('/login')
+
+    
+
+    // Yahan API call hogi 
     // fetch / axios
   };
 
   return (
-    <View className="flex-1 justify-center px-6 bg-white">
+    <View className="flex-1 justify-center bg-white px-6 ">
       {/* Title */}
       <Text className="text-2xl font-bold text-center mb-6">
-        Create Account
+        Create YOUR Account
       </Text>
 
       {/* Name */}

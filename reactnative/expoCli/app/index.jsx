@@ -10,35 +10,69 @@ import {
   ScrollView,
   Modal,
   ActivityIndicator,
-  FlatList
+  FlatList,
 } from "react-native";
 import { Link } from "expo-router";
 const logo = require("../assets/favicon.png");
 const backgroundImage = require("../assets/adaptive-icon.png");
 import UserData from "../data.json";
-
+import "../global.css";
+import FloatingIcon from "../components/FloatingIcon";
+import UserModal from "../components/modal/UserModal";
+import { useUserContext } from "../context/User";
 
 export default function App() {
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
+  const [openUserAddModal, setOpenAddModal] = useState(false);
+  const { users, setUsers } = useUserContext();
 
   return (
-    <View
-      style={{
-        // backgroundColor: "#fff",r
-        flex: 1,
-        // alignItems: "center",
-        justifyContent: "center",
-        paddingTop: 50,
-        paddingInline: 10,
-        // backgroundColor: "#000"
-      }}
-    >
-        <Link href="./login" asChild>
-          <Text>Go to login</Text>
+    <View className="bg-white">
+      {/* Modal called */}
+      <UserModal
+        openUserAddModal={openUserAddModal}
+        setOpenAddModal={setOpenAddModal}
+      />
+      <View className="flex flex-row py-2 justify-between items-center">
+        <Link
+          href="./tabs"
+          asChild
+          className="bg-blue-300 rounded-md px-5 py-2"
+        >
+          <Text>Tab Screen</Text>
         </Link>
-        <Link href="./signup" asChild style={{marginTop: 10, display: "block"}}>
-          <Text>Go to Signup</Text>
-        </Link>
+        <View
+          className="
+        flex flex-row  gap-2"
+        >
+          <Link
+            href="./login"
+            asChild
+            className="bg-slate-300 rounded-md px-5 py-2"
+          >
+            <Text>login</Text>
+          </Link>
+
+          <Link
+            href="./signup"
+            asChild
+            className="bg-slate-700 text-white rounded-md px-5 py-2"
+          >
+            <Text> Signup</Text>
+          </Link>
+        </View>
+      </View>
+
+      <View className="flex flex-row items-end justify-between pr-2 py-2">
+        <Text className="text-gray-600  font-bold">
+          Login and add the user in the platform!
+        </Text>
+        <FloatingIcon
+          openUserAddModal={openUserAddModal}
+          setOpenAddModal={setOpenAddModal}
+        />
+      </View>
+
       {/* Horizontall Scroll bar */}
       {/* <View>
         <ScrollView
@@ -137,18 +171,19 @@ export default function App() {
       } */}
 
       <FlatList
-        data={UserData}
+        className="h-[88%] mt-2"
+        data={users}
         renderItem={({ item }) => {
-          console.log('items ==>', item.id);
           return (
             <View
+              className="bg-blue-100 border border-blue-500 p-2.5 mb-2 rounded-xl"
               // key={item.id}
-              style={{
-                backgroundColor: "lightblue",
-                marginBottom: 10,
-                padding: 10,
-                borderRadius: 10,
-              }}
+              // style={{
+              //   backgroundColor: "lightblue",
+              //   marginBottom: 10,
+              //   padding: 10,
+              //   borderRadius: 10,
+              // }}
             >
               <Text>{item.name}</Text>
               <Text>{item.type}</Text>
@@ -156,10 +191,18 @@ export default function App() {
           );
         }}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={
+          <View className="pb-5">
+            <Text>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Praesentium quisquam omnis at. In ab sequi molestiae, nemo
+              exercitationem dolor explicabo blanditiis ullam impedit saepe,
+              quam sed nam animi doloribus praesentium iste, accusamus a! Modi!
+            </Text>
+          </View>
+        }
       />
-
-      <Text className="text-center text-lg font-bold text-green-500">Open up App.js to start working on your app!</Text>
     </View>
   );
 }
