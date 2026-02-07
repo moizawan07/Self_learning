@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons } from '@expo/vector-icons';
 
 const SecondTab = () => {
   return (
@@ -11,8 +11,8 @@ const SecondTab = () => {
       className="flex-1 justify-center items-center lbg-
 white"
     >
-      <Ionicons name="information-circle" size={50} color="green" />
-      <Text className="text-2x1 text-green-500 mt-4">Second Tab Content</Text>
+      <Ionicons name="information-circle" size={40} color="red" />
+      <Text className="text-2x1 text-red-500 mt-4">Second Tab Content</Text>
     </Animated.View>
   );
 };

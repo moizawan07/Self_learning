@@ -41,6 +41,13 @@ export default function App() {
         >
           <Text>Tab Screen</Text>
         </Link>
+        <Link
+          href="./profile"
+          asChild
+          className="bg-blue-300 rounded-md px-5 py-2"
+        >
+          <Text>Profile</Text>
+        </Link>
         <View
           className="
         flex flex-row  gap-2"
@@ -50,7 +57,7 @@ export default function App() {
             asChild
             className="bg-slate-300 rounded-md px-5 py-2"
           >
-            <Text>login</Text>
+            <Text>Login</Text>
           </Link>
 
           <Link
