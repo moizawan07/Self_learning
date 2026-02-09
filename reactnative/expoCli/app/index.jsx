@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -11,6 +11,7 @@ import {
   Modal,
   ActivityIndicator,
   FlatList,
+  Alert,
 } from "react-native";
 import { Link } from "expo-router";
 const logo = require("../assets/favicon.png");
@@ -20,14 +21,26 @@ import "../global.css";
 import FloatingIcon from "../components/FloatingIcon";
 import UserModal from "../components/modal/UserModal";
 import { useUserContext } from "../context/User";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   // const [modalVisible, setModalVisible] = useState(false);
   const [openUserAddModal, setOpenAddModal] = useState(false);
   const { users, setUsers } = useUserContext();
 
+  useEffect(() => {
+    setTimeout(() => {
+      Toast.show({
+        type: "success",
+        text1: "Toast Working 🎉",
+        text2: "Agar yeh dikh raha hai to sab OK hai",
+      });
+    }, 500);
+  }, []);
+
   return (
-    <View className="bg-white">
+    <SafeAreaView className="flex-1 px-1.5 bg-white">
       {/* Modal called */}
       <UserModal
         openUserAddModal={openUserAddModal}
@@ -41,13 +54,7 @@ export default function App() {
         >
           <Text>Tab Screen</Text>
         </Link>
-        <Link
-          href="./profile"
-          asChild
-          className="bg-blue-300 rounded-md px-5 py-2"
-        >
-          <Text>Profile</Text>
-        </Link>
+
         <View
           className="
         flex flex-row  gap-2"
@@ -210,7 +217,7 @@ export default function App() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,43 +1,58 @@
 // --------------------------------------------------------
 //  Tabs Routing perform throught Expo router but he's features are limited  like no hand gesture swipe
 // --------------------------------------------------------
-// import { Tabs } from "expo-router";
-// import Ionicons from "@expo/vector-icons/Ionicons";
+import { Tabs } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 
-// export default function TabsLayout() {
-//   return (
-//     <Tabs
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarStyle: {
-//           paddingBottom: 5,
-//           height: 47,
-//         },
-//       }}
-//     >
-//       <Tabs.Screen
-//         name="firstTab"
-//         options={{
-//           title: "Home",
-//           tabBarIcon: ({ color, size }) => (
-//             <Ionicons name="home" size={size} color={color} />
-//           ),
-//         }}
-//       />
+export default function TabsLayout() {
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor:"#ff00c3",
+        // animation:"shift ",
+        // tabBarPosition: "left",
+        // tabBarVariant: "material",
+        tabBarStyle: {
+          // paddingBottom: 5,
+          // height: 45,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="firstTab"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
+          tabBarBadge: "1"
+        }}
+      />
+      <Tabs.Screen
+        name="secondTab"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="cart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="thirdTab"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="cart" size={size} color={color} />
+          ),
+        }}
+      />
+   
 
-//       <Tabs.Screen
-//         name="secondTab"
-//         options={{
-//           title: "Cart",
-//           tabBarIcon: ({ color, size }) => (
-//             <Ionicons name="cart" size={size} color={color} />
-//           ),
-//         }}
-//       />
-//     </Tabs>
-//   );
-// }
+    </Tabs>
+  );
+}
 
 
 // --------------------------------------------------------
@@ -89,44 +104,44 @@
 
 // export default TabsLayout;
 
-import * as React from "react";
-import { View, Text, useWindowDimensions } from "react-native";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import Ionicons from "@expo/vector-icons/Ionicons";
+// import * as React from "react";
+// import { View, Text, useWindowDimensions } from "react-native";
+// import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+// import Ionicons from "@expo/vector-icons/Ionicons";
 
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-);
+// const FirstRoute = () => (
+//   <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
+// );
 
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-);
+// const SecondRoute = () => (
+//   <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
+// );
 
-export default function TabViewExample() {
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
+// export default function TabViewExample() {
+//   const layout = useWindowDimensions();
+//   const [index, setIndex] = React.useState(0);
 
-  const routes = [
-    { key: "first", title: "Home", icon: "home" },
-    { key: "second", title: "Info", icon: "information-circle" },
-  ];
+//   const routes = [
+//     { key: "first", title: "Home", icon: "home" },
+//     { key: "second", title: "Info", icon: "information-circle" },
+//   ];
 
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
+//   const renderScene = SceneMap({
+//     first: FirstRoute,
+//     second: SecondRoute,
+//   });
 
-  return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-      tabBarPosition="bottom"
+//   return (
+//     <TabView
+//       navigationState={{ index, routes }}
+//       renderScene={renderScene}
+//       onIndexChange={setIndex}
+//       initialLayout={{ width: layout.width }}
+//       tabBarPosition="bottom"
      
-    />
-  );
-}
+//     />
+//   );
+// }
 
 
 

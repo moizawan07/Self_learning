@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "expoCli",
-    "slug": "expoCli",
+    "name": "expo-typescript",
+    "slug": "expo-typescript",
+  "scheme": "expo-typescript",
     "version": "1.0.0",
-    "scheme": "expoCli",
     "orientation": "portrait",
-    "icon": "./assets/android-icon-foreground.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/android-icon-background.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,14 +21,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      "expo-font"
+      "expo-router"
     ]
   }
 }

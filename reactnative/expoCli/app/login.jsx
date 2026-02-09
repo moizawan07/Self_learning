@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import "../global.css";
 import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Signup() {
   const [form, setForm] = useState({
@@ -41,7 +42,7 @@ export default function Signup() {
   };
 
   return (
-    <View className="flex-1 justify-center  bg-white px-6 ">
+    <SafeAreaView className="flex-1 justify-center  bg-white px-6 ">
       <View>
         {/* Title */}
         <Text className="text-2xl font-bold text-center mb-6">
@@ -77,6 +78,6 @@ export default function Signup() {
           </Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

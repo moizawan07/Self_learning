@@ -13,7 +13,7 @@ const FirstTab = () => {
     >
       <Ionicons name="home" size={40} color={"green"} />
      
-      <Text className="text-4x1 font-bold text-green-500 mt-4">First Tab Content</Text>
+      <Text className="text-4x1 font-bold text-green-500 mt-4 ">First Tab Content</Text>
     </Animated.View>
   );
 };
