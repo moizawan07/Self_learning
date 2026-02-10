@@ -13,31 +13,53 @@ import {
   FlatList,
   Alert,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 const logo = require("../assets/favicon.png");
 const backgroundImage = require("../assets/adaptive-icon.png");
 import UserData from "../data.json";
-import "../global.css";
+
 import FloatingIcon from "../components/FloatingIcon";
 import UserModal from "../components/modal/UserModal";
 import { useUserContext } from "../context/User";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import { addKeyToStorage, deleteKeyFromStorage, getValueFromStorage } from "../helpers/asyncStorage";
 
 export default function App() {
   // const [modalVisible, setModalVisible] = useState(false);
   const [openUserAddModal, setOpenAddModal] = useState(false);
   const { users, setUsers } = useUserContext();
+  const [onBoard, setOnBoard] = useState(false)
 
+  // onBoard Check 
   useEffect(() => {
-    setTimeout(() => {
-      Toast.show({
-        type: "success",
-        text1: "Toast Working 🎉",
-        text2: "Agar yeh dikh raha hai to sab OK hai",
-      });
-    }, 500);
+    const onBoardLoad = async () => {
+      try {
+        // await deleteKeyFromStorage('userOnboard')
+        const userOnBoard = await getValueFromStorage("userOnboard");
+        console.log("userOnboard ==>", userOnBoard);
+
+        if (!userOnBoard) {
+          router.push("/onboarding");
+          addKeyToStorage("userOnboard", true);
+          return
+        }
+        setOnBoard(true)
+      } catch (error) {
+        console.log("error ==>", error);
+      }
+    };
+
+    onBoardLoad();
   }, []);
+
+  if(!onBoard){
+    return(
+       <SafeAreaView className="flex-1 justify-center items-center px-1.5 bg-white">
+         <ActivityIndicator color="black" size={65}/>
+       </SafeAreaView>
+    )
+  }
 
   return (
     <SafeAreaView className="flex-1 px-1.5 bg-white">
