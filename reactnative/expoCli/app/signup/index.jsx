@@ -14,6 +14,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  addKeyToStorage,
+  getValueFromStorage,
+} from "../../helpers/asyncStorage";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,10 +63,30 @@ export default function Signup() {
   };
 
   // Handle submit
-  const onSubmit = (data) => {
-    console.log("Signup Data:", data);
+  const onSubmit = async (data) => {
+    console.log("data ==>", data);
+    
+    
+    const oldUsers = await getValueFromStorage("users") || [];
+
+    console.log("oldUsers ==>", oldUsers);
+
+    if (oldUsers) {
+      const alreadyExist = oldUsers.find((user) => user.email === data.email);
+
+      if (alreadyExist) {
+        return Alert.alert("Error", "Email already exist");
+      }
+    }
+    
+    oldUsers.push(data);
+    
+    const add = await addKeyToStorage("users", oldUsers);
+    
+    console.log("add ==>", add);
+    
     Alert.alert("Success", "Account created successfully!");
-    router.push("/");
+    router.push("/login");
     // Yahan API call hogi
   };
 
@@ -229,7 +253,7 @@ export default function Signup() {
           <Text className="mt-10 text-center text-gray-500">
             Or sign up with
           </Text>
-          
+
           <View className="flex flex-row justify-evenly mt-7">
             <Pressable className="flex flex-row items-center justify-center gap-2 w-[44%] py-3 rounded-md border border-gray-200">
               <Image
@@ -250,7 +274,7 @@ export default function Signup() {
           <View className="mt-10 mb-10">
             <Text className="text-center">
               Already have an account?{" "}
-              <Text 
+              <Text
                 className="text-yellow-500 font-semibold"
                 onPress={handleLogin}
               >

@@ -2,8 +2,12 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
 const BottomNavigationLayout = () => {
+  const {cartItems} = useSelector(state => state.cart);
+  
+  
   return (
     <View className="flex-1">
       <Tabs
@@ -76,7 +80,7 @@ const BottomNavigationLayout = () => {
                 <Ionicons name="cart" size={size} color={color} />
               </View>
             ),
-            tabBarBadge: 1,
+            tabBarBadge: cartItems.length || 0,
             tabBarBadgeStyle: {
               backgroundColor: "#EF4444",
               fontSize: 10,

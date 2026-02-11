@@ -15,11 +15,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addKeyToStorage } from "../../helpers/asyncStorage";
+import { addKeyToStorage, getValueFromStorage } from "../../helpers/asyncStorage";
+import { login } from "../../redux/reducers/auth.reducer";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch()
 
   // Validation schema
   const schema = yup.object().shape({
@@ -51,12 +54,28 @@ export default function Login() {
   };
 
   // Handle submit
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Login Data:", data);
+    const allUsers = await getValueFromStorage('users') || [];
+    if(!allUsers) return;
+
+    const emailMatch = allUsers.find(user => user.email === data.email);
+    if(!emailMatch){
+    return Alert.alert("Error", "Email not match");
+       
+    }
+    const passMatch = emailMatch.password === data.password;
+
+     if(!passMatch){
+    return Alert.alert("Error", "Password not match");
+    }
+
     Alert.alert("Success", "Login successful!");
     router.push("/");
+    let token = "14kkhhh"
 
-    addKeyToStorage('token', "14kkhhh")
+    dispatch(login(token))
+    // addKeyToStorage('token', token)
     // Yahan API call hogi
   };
 

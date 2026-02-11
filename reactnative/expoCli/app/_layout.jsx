@@ -22,6 +22,8 @@ import { fonts } from "../constants/theme";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,25 +45,17 @@ export default function RootLayout() {
   if (!fontsLoaded) {
     return <View style={{ flex: 1, backgroundColor: "#000" }} />;
   }
-  
+
   return (
+    <GestureHandlerRootView>
+
     <SafeAreaProvider className="flex-1 px-2  bg-white">
-      {/* <UserProvider> */}
+      <Provider store={store}>
         <StatusBar style="inverted" backgroundColor="#000" />
         <Toast />
         <Stack screenOptions={{ headerShown: false }} />
-
-        {/* <Pressable onPress={() => router.push('./login')}>
-          <Text >Login</Text>
-        </Pressable> */}
-
-        {/* <Text   style={{fontFamily: fonts.nunito.semiBold}}>Nunito Footer</Text>
-        <Text style={{fontFamily: fonts.roboto.lightItalic}}>Roboto Footer</Text> */}
-      {/* </UserProvider> */}
-
-      {/* <FloatingButton /> */}
-
-     
+      </Provider>
     </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
