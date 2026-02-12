@@ -22,10 +22,33 @@ import { fonts } from "../constants/theme";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "../redux/store";
+import { toggleTheme } from "../redux/reducers/theme-reducer";
 
 SplashScreen.preventAutoHideAsync();
+
+const AppContent = () => {
+  const isDark = useSelector(state => state.theme.isDark);
+  const dispatch = useDispatch();
+
+  console.log("isDark ==>", isDark);
+  
+
+  return (
+    <View className={`${isDark ? "dark" : ""} flex-1 p-10 bg-green-400`}>
+      <Pressable
+        className="px-5  bg-slate-200"
+        onPress={() => dispatch(toggleTheme())} 
+      >
+        <Text>{isDark ? "Light Theme" : "Dark Theme"}</Text>
+      </Pressable>
+
+      <Stack screenOptions={{ headerShown: false }} />
+    </View>
+  );
+};
+
 
 export default function RootLayout() {
   const router = useRouter();
@@ -35,6 +58,7 @@ export default function RootLayout() {
     Nunito_200ExtraLight,
     Nunito_600SemiBold,
   });
+ 
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -46,14 +70,16 @@ export default function RootLayout() {
     return <View style={{ flex: 1, backgroundColor: "#000" }} />;
   }
 
+
+ 
   return (
     <GestureHandlerRootView>
-
     <SafeAreaProvider className="flex-1 px-2  bg-white">
       <Provider store={store}>
         <StatusBar style="inverted" backgroundColor="#000" />
         <Toast />
-        <Stack screenOptions={{ headerShown: false }} />
+          <Stack screenOptions={{ headerShown: false }} />
+        {/* <AppContent /> */}
       </Provider>
     </SafeAreaProvider>
     </GestureHandlerRootView>

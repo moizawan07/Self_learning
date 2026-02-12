@@ -15,14 +15,17 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addKeyToStorage, getValueFromStorage } from "../../helpers/asyncStorage";
+import {
+  addKeyToStorage,
+  getValueFromStorage,
+} from "../../helpers/asyncStorage";
 import { login } from "../../redux/reducers/auth.reducer";
 import { useDispatch } from "react-redux";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // Validation schema
   const schema = yup.object().shape({
@@ -56,27 +59,25 @@ export default function Login() {
   // Handle submit
   const onSubmit = async (data) => {
     console.log("Login Data:", data);
-    const allUsers = await getValueFromStorage('users') || [];
-    if(!allUsers) return;
+    const allUsers = (await getValueFromStorage("users")) || [];
+    if (!allUsers) return;
 
-    const emailMatch = allUsers.find(user => user.email === data.email);
-    if(!emailMatch){
-    return Alert.alert("Error", "Email not match");
-       
+    const emailMatch = allUsers.find((user) => user.email === data.email);
+    if (!emailMatch) {
+      return Alert.alert("Error", "Email not match");
     }
     const passMatch = emailMatch.password === data.password;
 
-     if(!passMatch){
-    return Alert.alert("Error", "Password not match");
+    if (!passMatch) {
+      return Alert.alert("Error", "Password not match");
     }
 
     Alert.alert("Success", "Login successful!");
     router.push("/");
-    let token = "14kkhhh"
+    let token = "14kkhhh";
 
-    dispatch(login(token))
-    // addKeyToStorage('token', token)
-    // Yahan API call hogi
+    dispatch(login(token));
+    addKeyToStorage("token", action.payload);
   };
 
   const handleSignup = () => {
@@ -196,10 +197,8 @@ export default function Login() {
             </Text>
           </TouchableOpacity>
 
-          <Text className="mt-10 text-center text-gray-500">
-            Or login with
-          </Text>
-          
+          <Text className="mt-10 text-center text-gray-500">Or login with</Text>
+
           <View className="flex flex-row justify-evenly mt-7">
             <Pressable className="flex flex-row items-center justify-center gap-2 w-[44%] py-3 rounded-md border border-gray-200">
               <Image
@@ -220,7 +219,7 @@ export default function Login() {
           <View className="mt-10 mb-10">
             <Text className="text-center">
               Don't have an account?{" "}
-              <Text 
+              <Text
                 className="text-yellow-500 font-semibold"
                 onPress={handleSignup}
               >

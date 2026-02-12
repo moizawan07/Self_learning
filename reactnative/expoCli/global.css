@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+:root {
+  --primary: 250 204 21;      /* #FACC15 */
+  --secondary: 255 107 0;     /* #FF6B00 */
+  --background: 255 255 255;  /* #FFFFFF */
+  --text-primary: 17 24 39;   /* #111827 */
+  --text-secondary: 107 114 128; /* #6B7280 */
+  --danger: 239 68 68;        /* #EF4444 */
+}
+
+/* Dark Mode */
+.dark {
+  --primary: 255 183 77;      /* slightly warm */
+  --secondary: 255 140 0;
+  --background: 17 24 39;
+  --text-primary: 255 255 255;
+  --text-secondary: 156 163 175;
+  --danger: 248 113 113;
+}

@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addKeyToStorage } from "../../helpers/asyncStorage";
+import {
+  addKeyToStorage,
+  deleteKeyFromStorage,
+} from "../../helpers/asyncStorage";
 
 const authSlice = createSlice({
   name: "auth",
@@ -9,9 +12,9 @@ const authSlice = createSlice({
   },
   reducers: {
     login(state, action) {
+      console.log("called login");
       state.token = action.payload;
       state.isAuthenticated = true;
-      addKeyToStorage("token", action.payload);
     },
     logout(state) {
       state.token = "";

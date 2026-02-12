@@ -1,4 +1,11 @@
-import { View, Text, Image, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  TextInput,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,19 +15,33 @@ import {
   removeFromCart,
   clearCart,
 } from "../../redux/reducers/cart.reducer";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetTextInput,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { useRef, useMemo, useState } from "react";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
   const bottomSheetRef = useRef(null);
 
-  const snapPoints = useMemo(() => ["10%", "20%", "55%", "80%"], []);
+  const snapPoints = useMemo(() => ["10%", "20%", "30%"], []);
 
   const openBottomSheet = () => {
     bottomSheetRef.current?.expand();
   };
+
+  const renderBackdrop = (props) => (
+    <BottomSheetBackdrop
+      {...props}
+      disappearsOnIndex={-1}
+      appearsOnIndex={0}
+      opacity={0.5}
+    />
+  );
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -135,8 +156,9 @@ const Cart = () => {
         index={-1}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
+        backdropComponent={renderBackdrop}
       >
-        <BottomSheetView className="flex-1 px-5 py-5">
+        <BottomSheetView className="flex-1  px-5 py-5">
           <Text className="text-xl font-bold mb-4">Order Summary</Text>
 
           <View className="flex-row justify-between mb-2">
